@@ -40,6 +40,8 @@ export default class ContentList extends Component {
                             title="加载中..."
                         />
                     }
+                    onEndReachedThreshold={5}
+                    onEndReached={()=>this.loadData()}
                 />
             );
     }
@@ -96,5 +98,17 @@ export default class ContentList extends Component {
     refresh() {
         console.log('refresh');
         this.fetchData();
+    }
+    loadData(){
+        console.log('loadData');
+        var url = API.qiubai;
+        fetch(url).
+            then((responseData) => responseData.json()).
+            then((jsonData) => {
+                this.setState({
+                    data: this.state.data.concat(jsonData.items),
+                    isLoaded: true
+                });
+            });
     }
 }
